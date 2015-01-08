@@ -1,4 +1,3 @@
-require 'active_support/concern'
 module Methods
   extend ActiveSupport::Concern
   module ClassMethods

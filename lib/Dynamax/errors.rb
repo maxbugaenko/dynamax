@@ -5,4 +5,5 @@ class Error < Exception
   end
 end
 class UknownField < Error; end
+class NoConfigFile < Error; end
 class NoAWSConfig < Error; end
