@@ -1,6 +1,6 @@
 # DynaMax DynamoDB Gem
 
-This is an extremely easy to use ```gem``` for DynamoDB based on official AWS-SDK.
+This is an easy to use ```gem``` for DynamoDB based on official ```aws-sdk```.
 Hope you enjoy this gem and you're welcome to contribute. Developed for Sinatra
 
 ## Install and use
@@ -50,6 +50,8 @@ require 'haml'
 require 'dynamax'
 require_relative 'lib/Article'
 require_relative 'lib/Articles'
+
+Dynamax::Config.new('h12', 'config.yml', Logger::DEBUG)
 
 get '/' do
   # this creates new row in Dynamo

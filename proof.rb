@@ -6,7 +6,6 @@ require_relative 'lib/proof/Article'
 require_relative 'lib/proof/Articles'
 
 Dynamax::Config.new('h12', 'config.yml', Logger::DEBUG)
-AWS.config(:logger => Logger.new($stdout))
 
 before do
   @articles = Articles.new
