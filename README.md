@@ -1,14 +1,18 @@
-[![Made By Max Bugaenko]]
+### DynaMax DynamoDB Gem
 
 ## Purpose
 
-Spent a lot of time on different similar gems I realized that there is no working
-and easy solutions. Hope you enjoy this gem and you're welcome to contribute
+Extremely easy to use Gem for DynamoDB based on official AWS-SDK.
+Hope you enjoy this gem and you're welcome to contribute
 
 ## Install and use
 
-Add this to your Gemfile and run ```bundle```
-```gem 'dynamax'```
+```gem 'guppy', '~> 0.0.3'```
+
+add this line to your Gemfile and then run
+
+```bundle```
+
 
 ## Create config.yml file
 DynamoDB credentials are read from YAML file that
