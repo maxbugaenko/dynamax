@@ -1,4 +1,4 @@
-### DynaMax DynamoDB Gem
+# DynaMax DynamoDB Gem
 
 ## Purpose
 
