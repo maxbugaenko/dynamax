@@ -39,7 +39,7 @@ require 'dynamax'
 Dynamax::Config.new('h12', 'config.yml')
 ```
 
-### Query chaining for data manipulation
+### Query chaining
 Here are some Sinatra routes so we can see it in
 real life
 
@@ -57,17 +57,29 @@ get '/new' do
     )
 end
 
-# lets update items by criteria
-# here could be one and more items to update
-get '/update' do
-  @dynamax
+# lets find articles with specific
+# votes count and change status
+get '/downvote' do
+  recs = @dynamax
     .document(:articles)
     .index(:votes)
-    .where(:tag => 'computers')
-    .where('votes < 100')
+    .where(tag: 'computers')
+    .where('rating < 100')
     .update(
-      :votes => 0,
-      :tag => 'ineligible'
+      votes: 0,
+      tag: 'ineligible'
     )
 end
+
+get '/verify' do
+  @dynamax
+    .document(:articles)
+    .index(:some_other_index)
+    .where(:account => 'john_smith')
+    .get
+end
 ```
+
+### Result of queries
+Every query returns iterable ```Dynamax::Records``` instance
+that contains array of ```Dynamax::Item```s that we just fetched
