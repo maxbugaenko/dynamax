@@ -5,7 +5,7 @@ Hope you enjoy this gem and you're welcome to contribute. Developed for Sinatra
 
 ## Install and use
 
-```gem 'guppy', '~> 0.0.3'```
+```gem 'dynamax', '~> 0.0.3'```
 
 add this line to your Gemfile and then run
 
@@ -22,15 +22,14 @@ aws:
   access_key_id: 'AKIAIPW*******ZW4JDQ'
   secret_access_key: 'lF7Bgfwd4Y***************i4eo15RfUye/'
   dynamo_db_endpoint: 'dynamodb.us-east-1.amazonaws.com'
+stateful:
+  urn: 'urn:facebook:9*********7879'
+  token: '88A5-****-****-18DE'
 ```
 
 ## Create table classes
 Extend Dynamax::Table base class to get needed functionality for
-each table. There are two types of classes: Singular and Plural
-form of representing data. In this very example we have ```Article```
-and ```Articles```. ```Article``` represents just one record from
-any document. Plural ```Articles``` represents all kinds of lists
-of ```Articles```.
+each table.
 
 ```
 class Article < Table
@@ -41,12 +40,9 @@ class Article < Table
 end
 ```
 
-Create such class for all tables you have created at DynamoDB
-and add all fields to it like above.
-
 ## Usage
-Here is a small simple Sinatra project with
-some features demonstrated:
+Here is a simple Sinatra project with some features
+demonstrated:
 
 ```
 require 'sinatra'
@@ -94,65 +90,22 @@ article.link('http://myblog.com')
 
 ## Queries and lists
 To fetch some data from DynamoDB we all have just one
-option. It is ```query``` method. We can implement
-```scan``` as well soon. Here is another example of
-how to use lists of data.
+option. It is ```aws.query``` method. Here is another
+example of how to query Dynamo.
 ```
-articles = Articles.new.query do
+articles = Articles.new
+list = articles
+  .index(:unique)
+  .where(uri: 'http://myblog.com')
+  .where('id > 1000')
+  .limit(10)
+```
+now we can iterate through this ```list``` and get
+our ```Article``` instances like described above. We
+can do something like:
+
+```
+list.each do |article|
+    article.author('John') if article.id > 10
 end
 ```
-
-
-Table `h12-articles` contains a full list of all articles:
-
-```
-id (hash): unique ID of the article
-uri: URI of the article
-tag: tag of it
-place: position in rating, e.g. 3274
-author: full name of the author, e.g. "Yegor Bugayenko"
-title: title of the article
-account: author's account, e.g. "yegor256"
-votes: total number of votes received
-```
-
-And it has a few indexes:
-
-```
-places: (tag, place)
-votes: (tag, votes)
-unique (uri, id)
-mine (account, id)
-```
-
-Table `h12-feeds` contains a full list of feeds:
-
-```
-uri (hash): unique URI of the RSS feed
-user: twitter account name, for example "yegor256"
-status: "live", "pending", "rejected"
-message: text message explaining the latest event on this feed
-```
-
-And it has a few indexes:
-
-```
-mine: (user, uri)
-```
-
-Table `h12-users` has a full list of users:
-
-```
-name (hash): unique name of a user (twitter account, e.g. "yegor256")
-points: total points available for this user
-photo: binary photo of the author (PNG)
-```
-
-## Running H12 locally
-
-In order to run the project locally do the following in the command line
-```
-bundle install
-ruby h12.rb
-```
-
