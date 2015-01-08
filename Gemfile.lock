@@ -40,9 +40,9 @@ GEM
       tilt
     i18n (0.6.9)
     json (1.8.1)
+    logger (1.2.8)
     mini_portile (0.6.1)
     minitest (5.3.5)
-    modularity (2.0.1)
     nokogiri (1.6.4)
       mini_portile (~> 0.6.0)
     parser (2.2.0.pre.8)
@@ -103,7 +103,7 @@ DEPENDENCIES
   aws-sdk (= 1.57.0)
   dynamoid
   haml (= 4.0.5)
-  modularity (>= 2)
+  logger
   rake
   rspec-rails (= 2.13)
   rubocop (= 0.27.1)

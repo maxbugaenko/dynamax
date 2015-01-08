@@ -13,8 +13,9 @@ add this line to your Gemfile and then run
 
 
 ## Create config.yml file
-DynamoDB credentials are read from YAML file that
-should be in your app root directory. Here is a sample:
+DynamoDB credentials are read from YAML file. You can place
+it wherever you want. Please do not save it in your public directory.
+Here is a sample of config.yml
 
 ```
 aws:
@@ -24,7 +25,13 @@ aws:
 ```
 
 ## Create table classes
-Extend Dynamax::Table base class to get needed functionality
+Extend Dynamax::Table base class to get needed functionality for
+each table. There are two types of classes: Singular and Plural
+form of representing data. In this very example we have ```Article```
+and ```Articles```. ```Article``` represents just one record from
+any document. Plural ```Articles``` represents all kinds of lists
+of ```Articles```.
+
 ```
 class Article < Table
   f [:id, :n, :key]
@@ -35,7 +42,7 @@ end
 ```
 
 Create such class for all tables you have created at DynamoDB
-and add all fields to it.
+and add all fields to it like above.
 
 ## Usage
 Here is a small simple Sinatra project with
@@ -44,9 +51,9 @@ some features demonstrated:
 ```
 require 'sinatra'
 require 'haml'
-require 'yaml'
 require 'dynamax'
 require_relative 'lib/Article'
+require_relative 'lib/Articles'
 
 get '/' do
   # this creates new row in Dynamo
@@ -68,7 +75,33 @@ get '/' do
 end
 ```
 
-## DynamoDB Structure
+## Create single record
+Actually there's more than one way to create one record. Here
+you go
+
+```
+article = Article.new
+# this will just create instance of Article class
+# with no data at all. Physically you wont see any changes
+# in database. However this would be fully working
+# instance of piece of data. Next you can do the following
+# for example:
+article.author('John Smith')
+article.link('http://myblog.com')
+# this would actually apply specified data to the
+# our just initialized instance of Article
+```
+
+## Queries and lists
+To fetch some data from DynamoDB we all have just one
+option. It is ```query``` method. We can implement
+```scan``` as well soon. Here is another example of
+how to use lists of data.
+```
+articles = Articles.new.query do
+end
+```
+
 
 Table `h12-articles` contains a full list of all articles:
 

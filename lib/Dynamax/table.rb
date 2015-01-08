@@ -4,7 +4,7 @@ class Table
 
   def initialize(val)
     @key_value = val
-    Dynamax.logger.debug("#{self.class.to_s} initialized. Config: #{config.to_s}")
+    Dynamax.logger.debug("#{self.class.to_s}.new() called")
   end
 
   def delete

@@ -2,3 +2,6 @@ aws:
   access_key_id: 'AKIAIPWEAASXF7ZW4JDQ'
   secret_access_key: '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'
   dynamo_db_endpoint: 'dynamodb.us-east-1.amazonaws.com'
+stateful:
+  urn: 'urn:facebook:908422019167879'
+  token: '88A5-61EE-1C10-18DE'

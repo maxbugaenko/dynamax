@@ -3,4 +3,5 @@ class Article < Table
   f [:author, :s]
   f [:name, :s]
   f [:uri, :s]
+  # p [:stateful, 'article-counter']
 end
