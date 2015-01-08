@@ -1,9 +1,7 @@
 # DynaMax DynamoDB Gem
 
-## Purpose
-
-Extremely easy to use Gem for DynamoDB based on official AWS-SDK.
-Hope you enjoy this gem and you're welcome to contribute
+This is an extremely easy to use ```gem``` for DynamoDB based on official AWS-SDK.
+Hope you enjoy this gem and you're welcome to contribute. Developed for Sinatra
 
 ## Install and use
 
@@ -11,7 +9,7 @@ Hope you enjoy this gem and you're welcome to contribute
 
 add this line to your Gemfile and then run
 
-```bundle```
+```bundle install```
 
 
 ## Create config.yml file
