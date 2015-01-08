@@ -27,87 +27,47 @@ stateful:
   token: '88A5-****-****-18DE'
 ```
 
-## Create table classes
-Extend Dynamax::Table base class to get needed functionality for
-each table.
-
-```
-class Article < Table
-  f [:id, :n, :key]
-  f [:author, :s]
-  f [:name, :s]
-  f [:uri, :s]
-end
-```
-
-## Usage
-Here is a simple Sinatra project with some features
-demonstrated:
+## Basics
+Create simple Sinatra project and require ```dynamax```. Add one
+configuration line and you are ready to go. Here is all you
+need to do to start
 
 ```
 require 'sinatra'
-require 'haml'
 require 'dynamax'
-require_relative 'lib/Article'
-require_relative 'lib/Articles'
 
-Dynamax::Config.new('h12', 'config.yml', Logger::DEBUG)
+Dynamax::Config.new('h12', 'config.yml')
+```
 
-get '/' do
-  # this creates new row in Dynamo
-  # either you can specify key value explicitly
-  # or you can use Stateful.co to retrieve
-  # unique integer key value. Read about Stateful.co
-  # further
-  article = Article.new(Dynamax::USE_STATEFUL).create
-  # we check if article actually exists
-  if article.exists?
-    # access any attribute or change it by calling corresponding
-    # methods from your table classes
-    puts "article author: #{article.author}"
-    # change value for the attribute author just
-    # like that
-    art.author('maxic')
-    # article.delete would delete row from the table
-  end
+### Query chaining for data manipulation
+Here are some Sinatra routes so we can see it in
+real life
+
+```
+# lets add new article
+get '/new' do
+  @dynamax
+    .document(:articles)
+    .add(
+      id: Stateful::Counter.new('article-counter').inc
+      uri: 'http://rubyblog.com',
+      account: 'John Smith',
+      tag: 'computers',
+      title: 'Some Ruby tricks'
+    )
 end
-```
 
-## Create single record
-Actually there's more than one way to create one record. Here
-you go
-
-```
-article = Article.new
-# this will just create instance of Article class
-# with no data at all. Physically you wont see any changes
-# in database. However this would be fully working
-# instance of piece of data. Next you can do the following
-# for example:
-article.author('John Smith')
-article.link('http://myblog.com')
-# this would actually apply specified data to the
-# our just initialized instance of Article
-```
-
-## Queries and lists
-To fetch some data from DynamoDB we all have just one
-option. It is ```aws.query``` method. Here is another
-example of how to query Dynamo.
-```
-articles = Articles.new
-list = articles
-  .index(:unique)
-  .where(uri: 'http://myblog.com')
-  .where('id > 1000')
-  .limit(10)
-```
-now we can iterate through this ```list``` and get
-our ```Article``` instances like described above. We
-can do something like:
-
-```
-list.each do |article|
-    article.author('John') if article.id > 10
+# lets update items by criteria
+# here could be one and more items to update
+get '/update' do
+  @dynamax
+    .document(:articles)
+    .index(:votes)
+    .where(:tag => 'computers')
+    .where('votes < 100')
+    .update(
+      :votes => 0,
+      :tag => 'ineligible'
+    )
 end
 ```

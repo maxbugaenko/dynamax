@@ -11,18 +11,6 @@ module Dynamax
       self
     end
 
-    def document(table)
-      @table = table
-    end
-
-    def add(hash)
-
-    end
-
-    def del
-
-    end
-
     def where(field_value, _type = :s, _condition = 'EQ')
       unless field_value.instance_of?(String)
         @options.merge!(
@@ -48,17 +36,23 @@ module Dynamax
       self
     end
 
-    def each
-      make_query.each do |item|
+    def each(&block)
+      result = make_query
+      # puts 'RESULT: ' + result.to_s
+      # puts 'COUUNT: ' + result.count.to_s
+      # list = Array.new
+      result.each do |item|
+        puts 'ACC: ' + item['account'][:s]
         yield get(item[table_hash_key[:key]][table_hash_key[:type]])
       end
+      # list.each(&block)
     end
 
     private
 
-    # have got issue
-    # bad things here
     def parse_criteria(criteria)
+      # have got issue
+      # bad things here
       crits = criteria.split(' ')
       case crits[1]
         when '<'
@@ -71,6 +65,8 @@ module Dynamax
     end
 
     def make_query
+      # puts 'OPTIONS: ' + @options.to_s
+      # puts 'PARENT: ' + self.table_name
       Dynamax.aws.query(
         table_name: self.table_name,
         index_name: @index.to_s,
