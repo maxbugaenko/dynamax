@@ -1,0 +1,7 @@
+aws:
+  access_key_id: 'AKIAJ7N7ZDIPIU55F4PA'
+  secret_access_key: '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'
+  dynamo_db_endpoint: 'dynamodb.us-east-1.amazonaws.com'
+stateful:
+  urn: 'urn:facebook:908422019167879'
+  token: '88A5-61EE-1C10-18DE'
