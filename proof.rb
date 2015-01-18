@@ -11,14 +11,21 @@ before do
   @articles = Articles.new
 end
 
+get '/usi' do
+  haml :usi, :layout => :layout
+end
+
 get '/' do
   list = @articles
-    .index(:unique)
-    .where(:uri => 'http://www.yegor256.com/2014/11/07/how-immutability-helps.html')
+    .document(:articles)
+    .index(:mine)
+    .where(:account => 'yegor256')
     .limit(10)
-  haml
+
+  puts list.class.to_s
   list.each do |item|
-    puts item
+    puts item.class.to_s
+    # item.set('account', 'grechkin')
   end
 
   # # method QUERY fetches many records

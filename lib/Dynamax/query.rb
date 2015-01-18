@@ -11,12 +11,9 @@ module Dynamax
       self
     end
 
-    def document(table)
-      @table = table
-    end
-
-    def add(hash)
-
+    def document(document)
+      @document = document
+      self
     end
 
     def del
@@ -49,9 +46,13 @@ module Dynamax
     end
 
     def each
-      make_query.each do |item|
-        yield get(item[table_hash_key[:key]][table_hash_key[:type]])
+      records = Dynamax::Records.new
+      res = make_query
+      puts res.class.to_s
+      res.each do |item|
+        records.add(item)
       end
+      yield records
     end
 
     private
@@ -70,9 +71,14 @@ module Dynamax
       end
     end
 
+    def table_name
+      "#{Dynamax.prefix}-#{@document.downcase.pluralize}"
+    end
+
     def make_query
+      raise DocumentNotSpecified, 'Include "document(:table_name)" to your query' if @document.nil?
       Dynamax.aws.query(
-        table_name: self.table_name,
+        table_name: @document.to_s,
         index_name: @index.to_s,
         select: 'ALL_ATTRIBUTES',
         scan_index_forward: false,

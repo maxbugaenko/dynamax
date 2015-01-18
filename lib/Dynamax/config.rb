@@ -4,8 +4,8 @@ module Dynamax
       Dynamax.prefix = prefix
       Dynamax.creds = YAML.load(File.open(conf))
       AWS.config(
-        :logger => Logger.new('dynamologs.log'),
-        :log_level => :debug,
+        logger: Logger.new('dynamologs.log'),
+        log_level: :debug,
         access_key_id: Dynamax.creds['aws']['access_key_id'],
         secret_access_key: Dynamax.creds['aws']['secret_access_key'],
         dynamo_db_endpoint: Dynamax.creds['aws']['dynamo_db_endpoint']

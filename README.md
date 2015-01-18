@@ -1,7 +1,19 @@
 # DynaMax DynamoDB Gem
 
 This is an easy to use ```gem``` for DynamoDB based on official ```aws-sdk```.
-Hope you enjoy this gem and you're welcome to contribute. Developed for Sinatra
+This gem pretty much relieves sufferings from ```aws-sdk``` :)
+Hope you enjoy it and you're welcome to contribute. Developed for Sinatra
+
+This gem contains most popular queries like ```put_item```, ```update_item```,
+```query``` and others. All queries are method chains. A simple query will
+like:
+
+```
+  @dynamax
+    .document(:articles)
+    .where(author: 'John Smith')
+```
+This would make a ```query``` and retrieve Dynamax::Records
 
 ## Install and use
 
@@ -27,7 +39,7 @@ stateful:
   token: '88A5-****-****-18DE'
 ```
 
-## Basics
+## Get started
 Create simple Sinatra project and require ```dynamax```. Add one
 configuration line and you are ready to go. Here is all you
 need to do to start
@@ -38,8 +50,9 @@ require 'dynamax'
 
 Dynamax::Config.new('h12', 'config.yml')
 ```
+Global object ```dynamax``` will be initialized
 
-### Query chaining
+### Queries
 Here are some Sinatra routes so we can see it in
 real life
 
